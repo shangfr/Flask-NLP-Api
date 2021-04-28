@@ -42,7 +42,7 @@ nlp flask restful api for Chinese text
 Swagger Web
 ---------------
 
-
+![avatar](/resources/pic.png)
 
 curl test
 ---------------
