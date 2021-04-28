@@ -39,10 +39,16 @@ nlp flask restful api for Chinese text
 
 3. 打开 http://0.0.0.0:5000/ .
 
+Swagger Web
+---------------
+
+
 
 curl test
 ---------------
 
 curl http://127.0.0.1:5000/nlp/v1/report
+
 curl http://127.0.0.1:5000/nlp/v1/report -d "sentence=今天上班路过体育南大街的时候发现路灯坏了很长时间了,政.应该早点派人修一下" -X POST
+
 
