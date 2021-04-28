@@ -23,7 +23,6 @@ api = Api(app)
 
 dict_manage = WordDict()
 dict_manage.add_userdict('体育南大街',tag='LOC')
-dict_manage.add_userdict('东王新村',tag='LOC')
 #text_analyse = WordExtract()
 
 Todos = {
