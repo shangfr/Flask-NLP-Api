@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: yuhua-yuhua
+  name: yuhua-yuhua
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: yuhua-yuhua
+  template:
+    metadata:
+      labels:
+        app: yuhua-yuhua
+    spec:
+      imagePullSecrets:
+        - name: yuhua-yuhua
+      containers:
+        - image: quadtalent-docker.pkg.coding.net/yuhua/yuhua/yuhua
+          name: yuhua-yuhua
+          ports:
+            - containerPort: 5000

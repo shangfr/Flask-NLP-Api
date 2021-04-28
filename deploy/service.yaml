@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: yuhua-yuhua
+spec:
+  ports:
+    - name: http
+      port: 5000
+      protocol: TCP
+  selector:
+    app: yuhua-yuhua
+  type: LoadBalancer

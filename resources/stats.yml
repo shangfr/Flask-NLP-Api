@@ -1,0 +1,33 @@
+---      
+tags:
+  - Flast Restful APIs
+parameters:
+  - name: a
+    in: query
+    type: integer
+    required: true
+    description: first number
+  - name: b
+    in: query
+    type: integer
+    required: true
+    description: second number
+responses:
+  500:
+    description: Error The number is not integer!
+  200:
+    description: Number statistics
+    schema:
+      id: stats
+      properties:
+        sum:
+          type: integer
+          description: The sum of number
+        product:
+          type: integer
+          description: The sum of number
+        division:
+          type: integer
+          description: The sum of number              
+
+
