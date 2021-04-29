@@ -9,15 +9,11 @@ import jieba.analyse
 import re
 from model.senta_cls import Sentiment
 from model.lda_cls import EtypeRec
-import pandas as pd
-from sqlalchemy import create_engine
-engine = create_engine('sqlite:///mockdata.db')
-#载入词典
-user_word = pd.read_sql('词典', engine,index_col='index')
-stop_word = pd.read_sql('停用词', engine,index_col='index')
 
-user_word_l = user_word['自定义'].to_list()
-stop_word_l = stop_word['停用词'].to_list()
+#载入词典
+
+user_word_l = ['']
+stop_word_l = ['']
 
 jieba.setLogLevel(40)
      

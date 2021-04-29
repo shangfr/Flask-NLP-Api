@@ -27,7 +27,6 @@ ns_report = api.namespace("nlp/v1/report", description="report api任务")
 ns_text = api.namespace("nlp/v1/text", description="text api任务")
 
 dict_manage = WordDict()
-dict_manage.add_userdict('体育南大街',tag='LOC')
 #text_analyse = WordExtract()
 
 Todos = {
