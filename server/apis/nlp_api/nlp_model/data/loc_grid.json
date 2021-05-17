@@ -1,0 +1,20 @@
+{
+	"data": [
+		{
+			"loc": "体育南大街",
+			"address": "河北省石家庄市裕华区体育南大街202号",
+			"grid_id": "2c918083786c26d001786cc379f10195",
+			"grid_code": "yh030101",
+			"grid_name": "盛世天花园",
+			"grid_level": "04"
+		},
+		{
+			"loc": "东王新村",
+			"address": "石家庄市体育南大街383-1号",
+			"grid_id": "2c924b7f77857c3c017789ebed5f0018",
+			"grid_code": "yh020101",
+			"grid_name": "中央公园",
+			"grid_level": "04"
+		}
+	]
+}

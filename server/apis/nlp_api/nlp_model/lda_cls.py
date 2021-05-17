@@ -5,8 +5,6 @@ Created on Thu Apr 15 10:34:19 2021
 @author: shangfr
 """
 import paddlehub as hub
-import jieba
-import re 
 
 class EtypeRec(object):
     '事件类别识别模型'

@@ -7,19 +7,21 @@ Created on Wed Apr 14 10:49:00 2021
 import jieba
 import jieba.analyse
 import re
-from model.senta_cls import Sentiment
-from model.lda_cls import EtypeRec
+from .senta_cls import Sentiment
+from .lda_cls import EtypeRec
 
-#载入词典
+
+# 载入词典
 
 user_word_l = ['']
 stop_word_l = ['']
 
 jieba.setLogLevel(40)
-     
-Sentiment.load_model()
-EtypeRec.load_model()
-#jieba.initialize()
+
+# Sentiment.load_model()
+# EtypeRec.load_model()
+# jieba.initialize()
+
 
 class WordDict(object):
     '''
@@ -29,7 +31,7 @@ class WordDict(object):
     del_userdict: 删除新词 fun
     '''
     word_l = user_word_l
-    
+
     def __init__(self):
         '''
 
@@ -43,21 +45,21 @@ class WordDict(object):
         None.
 
         '''
-        #self.init_model()
+        # self.init_model()
         self.add_userdict(self.word_l)
 
     def get_userdict(self):
         return self.word_l
-    
-    def add_userdict(self,uword,tag='USER'):
+
+    def add_userdict(self, uword, tag='USER'):
         if isinstance(uword, list):
             for w in uword:
-                jieba.add_word(w,tag=tag)
+                jieba.add_word(w, tag=tag)
         else:
-            jieba.add_word(uword,tag=tag)
+            jieba.add_word(uword, tag=tag)
             self.word_l.append(uword)
-            
-    def del_userdict(self,uword):
+
+    def del_userdict(self, uword):
         if isinstance(uword, list):
             for w in uword:
                 jieba.del_word(w)
@@ -65,16 +67,17 @@ class WordDict(object):
             jieba.del_word(uword)
             self.word_l.remove(uword)
 
+
 class WordExtract(object):
 
     '分词、关键词提取、情绪倾向识别'
-    
+
     def __init__(self):
         pass
-    
+
     # 对句子进行中文分词
     @staticmethod
-    def seg_depart(sentence,senta=True):
+    def seg_depart(sentence, senta=True):
         '''
         Parameters
         ----------
@@ -94,13 +97,14 @@ class WordExtract(object):
         # 对文档中的每一行进行中文分词
         sentence = re.sub(r'[^\u4e00-\u9fa5^a-z^A-Z^0-9]', '', sentence)
         sentence_depart = jieba.lcut(sentence)
-        all_words = [word for word in sentence_depart if word not in stop_word_l]
+        all_words = [
+            word for word in sentence_depart if word not in stop_word_l]
         if senta:
             senta_values = Sentiment.senta_probs(sentence)
         else:
             senta_values = [0]
 
-        return {'segwords':all_words,'sentavalue':round(10*senta_values[0],2)}
+        return {'segwords': all_words, 'sentavalue': round(10*senta_values[0], 2)}
 
     # 对上报事件进行实体识别、类型判断。
     @staticmethod
@@ -119,27 +123,27 @@ class WordExtract(object):
         dict
             DESCRIPTION.
 
-        '''       
+        '''
         sentence = re.sub(r'[^\u4e00-\u9fa5^a-z^A-Z^0-9]', '', sentence)
-        all_pos = ['PER','LOC','ORG','TIME','USER','ns', 'n', 'vn', 'v','nr']
-        keywords = jieba.analyse.extract_tags(sentence, topK=5,allowPOS=all_pos, withWeight=False, withFlag=True)
+        all_pos = ['PER', 'LOC', 'ORG', 'TIME',
+                   'USER', 'ns', 'n', 'vn', 'v', 'nr']
+        keywords = jieba.analyse.extract_tags(
+            sentence, topK=5, allowPOS=all_pos, withWeight=False, withFlag=True)
 
         if etype_rec:
             etype = EtypeRec.etype_sim(sentence)
         else:
             etype = ''
-            
-        return {'keywords':dict(keywords),'etype':etype}
+
+        return {'keywords': dict(keywords), 'etype': etype}
+
 
 if __name__ == "__main__":
     #dict_manage = WordDict()
     test_text = "今天上班路过体育南大街的时候发现路灯坏了很长时间了,政府应该早点派人修一下。"
-    result = WordExtract.seg_depart(test_text,senta=False)
+    result = WordExtract.seg_depart(test_text, senta=False)
     print(result)
-    
-    WordDict().add_userdict('体育南大街',tag='LOC')
+
+    WordDict().add_userdict('体育南大街', tag='LOC')
     result = WordExtract.key_word(test_text, etype_rec=False)
-    print(result)    
-    
-    
-    
+    print(result)
