@@ -22,34 +22,34 @@ nlp flask restful api for Chinese text
 * nlp.db - [数据库文件](server/apis/nlp_api/nlp_model/README.md)
 * server - RestX Restful Api 带 swagger log
 
-'''
-+--server
-| +--api.py
-| +--apis
-| | +--nlp_api
-| | | +--dict_api.py
-| | | +--nlp_model
-| | | | +--data
-| | | | | +--event_category.json
-| | | | +--extra_dict
-| | | | | +--stop_words.txt
-| | | | +--lda_cls.py
-| | | | +--README.md
-| | | | +--simnet_cls.py
-| | | | +--test_model.py
-| | | | +--words_extract.py
-| | | | +--__init__.py
-| | | +--text_api.py
-| | | +--__init__.py
-| +--config.py
-| +--mylog.py
-| +--static
-| +--templates
-| +--__init__.py
-+--utils
-| +--db.py
-| +--nlp_db.py
-'''
+
+        +--server
+        | +--api.py
+        | +--apis
+        | | +--nlp_api
+        | | | +--dict_api.py
+        | | | +--nlp_model
+        | | | | +--data
+        | | | | | +--event_category.json
+        | | | | +--extra_dict
+        | | | | | +--stop_words.txt
+        | | | | +--lda_cls.py
+        | | | | +--README.md
+        | | | | +--simnet_cls.py
+        | | | | +--test_model.py
+        | | | | +--words_extract.py
+        | | | | +--__init__.py
+        | | | +--text_api.py
+        | | | +--__init__.py
+        | +--config.py
+        | +--mylog.py
+        | +--static
+        | +--templates
+        | +--__init__.py
+        +--utils
+        | +--db.py
+        | +--nlp_db.py
+
 
 快速开始
 ---------------
