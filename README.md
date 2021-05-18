@@ -3,6 +3,7 @@
 nlp flask restful api for Chinese text
 
 > 通过结巴进行分词、关键词提取的RestX API框架，支持数据库自定义字典，支持动态调整user dict
+
 > 通过paddlehub的开源模型simnet，对事件文本进行分类。
 
 | 算法模型类别	| 模型描述| 
