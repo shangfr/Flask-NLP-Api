@@ -1,7 +1,8 @@
 
 # flask_nlp_api
 nlp flask restful api for Chinese text
-[TOC]
+
+通过结巴进行分词、关键词提取的RestX API框架，支持数据库自定义字典，支持动态调整user dict
 
 | 算法模型类别	| 模型描述| 
 | :----: | :----- |
