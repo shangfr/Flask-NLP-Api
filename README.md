@@ -19,9 +19,10 @@ nlp flask restful api for Chinese text
 * Dockerfile - 用以自动构建 Docker 镜像的脚本
 * requirements.txt - 依赖包文件 pip freeze > requirements_all.txt   pipreqs ./ --encoding=utf-8
 * manage.py - 主 Flask 服务器端源代码
-* nlp.db - [数据库文 ](server/apis/nlp_api/nlp_model/README.md)
+* nlp.db - [数据库文件](server/apis/nlp_api/nlp_model/README.md)
 * server - RestX Restful Api 带 swagger log
 
+'''
 +--server
 | +--api.py
 | +--apis
@@ -48,6 +49,7 @@ nlp flask restful api for Chinese text
 +--utils
 | +--db.py
 | +--nlp_db.py
+'''
 
 快速开始
 ---------------
