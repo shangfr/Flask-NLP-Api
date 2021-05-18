@@ -7,86 +7,111 @@ Created on Wed Apr 14 10:49:00 2021
 import jieba
 import jieba.analyse
 import re
-from .senta_cls import Sentiment
-from .lda_cls import EtypeRec
-
-
-# 载入词典
-
-user_word_l = ['']
-stop_word_l = ['']
-
+import pandas as pd
+from sqlalchemy import create_engine
+from sqlalchemy import text
 jieba.setLogLevel(40)
-
-# Sentiment.load_model()
-# EtypeRec.load_model()
-# jieba.initialize()
 
 
 class WordDict(object):
     '''
-    分词字典管理：
-    user_word_l：  初始化用户词典 list
-    get_userdict: 增加新词 fun
-    del_userdict: 删除新词 fun
+    分词字典管理：jieba只支持读取自定义词典txt文件，改成支持读取数据库；
+    user_dict：  初始化加载的用户词典 list
     '''
-    word_l = user_word_l
+    user_dict = []
 
     def __init__(self):
-        '''
+        pass
 
+    @classmethod
+    def load_userdict(cls, url='sqlite:///nlp.db', table='user_dict'):
+        '''
         Parameters
         ----------
-        word_l : list
-            初始化用户词典.
+        cls : TYPE
+            通过类方法，加载数据库，读取user_dict.
+        url : TYPE, optional
+            DESCRIPTION. The default is 'sqlite:///nlp.db'.
+        table : TYPE, optional
+            DESCRIPTION. The default is 'user_dict'.
 
         Returns
         -------
         None.
 
         '''
-        # self.init_model()
-        self.add_userdict(self.word_l)
+        cls.engine = create_engine(url)
+        cls.table = table
+        user_word = pd.read_sql(cls.table, cls.engine)
+        cls.user_dict = user_word.to_dict('records')
+        # 载入词典，需要重启
+        jieba.initialize()
+        for row in cls.user_dict:
+            jieba.add_word(word=row['word'], freq=row['freq'], tag=row['tag'])
 
-    def get_userdict(self):
-        return self.word_l
+    @staticmethod
+    def show_addwords():
+        '''
+        Returns
+        -------
+        user_word_list : TYPE
+            用户新增字典.
 
-    def add_userdict(self, uword, tag='USER'):
+        '''
+        user_word_df = pd.read_sql(WordDict.table, WordDict.engine)
+        user_word_list = user_word_df.to_dict('records')
+        for word in WordDict.user_dict:
+            if word in user_word_list:
+                user_word_list.remove(word)
+        return user_word_list
+
+    @staticmethod
+    def add_userdict(uword):
         if isinstance(uword, list):
-            for w in uword:
-                jieba.add_word(w, tag=tag)
-        else:
-            jieba.add_word(uword, tag=tag)
-            self.word_l.append(uword)
+            with WordDict.engine.connect() as conn:
+                conn.execute(
+                    text(
+                        "INSERT INTO user_dict (word, freq, tag) VALUES (:word, :freq, :tag)"),
+                    uword
+                )
 
-    def del_userdict(self, uword):
+            for row in uword:
+                jieba.add_word(word=row['word'],
+                               freq=row['freq'], tag=row['tag'])
+
+        else:
+            pass
+
+    @staticmethod
+    def del_userdict(uword):
         if isinstance(uword, list):
-            for w in uword:
-                jieba.del_word(w)
+            with WordDict.engine.connect() as conn:
+                conn.execute(
+                    text(
+                        "DELETE FROM user_dict WHERE word =:word"),
+                    uword
+                )
+            for row in uword:
+                jieba.del_word(word=row['word'])
         else:
-            jieba.del_word(uword)
-            self.word_l.remove(uword)
-
+            pass
 
 class WordExtract(object):
 
-    '分词、关键词提取、情绪倾向识别'
+    '分词、关键词提取'
+    stop_word_l = []
 
     def __init__(self):
         pass
 
     # 对句子进行中文分词
     @staticmethod
-    def seg_depart(sentence, senta=True):
+    def seg_depart(sentence):
         '''
         Parameters
         ----------
         sentence : TYPE
             DESCRIPTION.
-        senta : TYPE, optional
-            DESCRIPTION. The default is True.
-        keywords : TYPE, optional
-            DESCRIPTION. The default is False.
 
         Returns
         -------
@@ -98,17 +123,13 @@ class WordExtract(object):
         sentence = re.sub(r'[^\u4e00-\u9fa5^a-z^A-Z^0-9]', '', sentence)
         sentence_depart = jieba.lcut(sentence)
         all_words = [
-            word for word in sentence_depart if word not in stop_word_l]
-        if senta:
-            senta_values = Sentiment.senta_probs(sentence)
-        else:
-            senta_values = [0]
+            word for word in sentence_depart if word not in WordExtract.stop_word_l]
 
-        return {'segwords': all_words, 'sentavalue': round(10*senta_values[0], 2)}
+        return {'segwords': all_words}
 
-    # 对上报事件进行实体识别、类型判断。
+    # 对上报事件进行实体识别、类型判断、已经办事地点匹配。
     @staticmethod
-    def key_word(sentence, etype_rec=True):
+    def key_word(sentence):
         '''
 
         Parameters
@@ -130,20 +151,20 @@ class WordExtract(object):
         keywords = jieba.analyse.extract_tags(
             sentence, topK=5, allowPOS=all_pos, withWeight=False, withFlag=True)
 
-        if etype_rec:
-            etype = EtypeRec.etype_sim(sentence)
-        else:
-            etype = ''
+        keywords = dict(keywords)
 
-        return {'keywords': dict(keywords), 'etype': etype}
+        return {'keywords': keywords}
+
 
 
 if __name__ == "__main__":
-    #dict_manage = WordDict()
-    test_text = "今天上班路过体育南大街的时候发现路灯坏了很长时间了,政府应该早点派人修一下。"
-    result = WordExtract.seg_depart(test_text, senta=False)
-    print(result)
+    # 加载用户字典
+    WordDict.load_userdict()
+    WordDict.user_dict
+    uword = [{'word': '自治区', 'freq': 5, 'tag': 'n'}]
+    WordDict.add_userdict(uword)
+    WordDict.show_addwords()
+    WordDict.del_userdict(uword)
 
-    WordDict().add_userdict('体育南大街', tag='LOC')
-    result = WordExtract.key_word(test_text, etype_rec=False)
-    print(result)
+    
+    

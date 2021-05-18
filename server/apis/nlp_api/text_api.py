@@ -11,8 +11,7 @@ api = Namespace("text", description="text api任务")
 
 Todos = {
     'dict': {'task': '词典管理: get-查询词典；post-word、tag增加新词；delete-word删除新词；'},
-    'report': {'task': '我要报: post-sentence,return-关键词、事件类型、地点、所在网格'},
-    'text': {'task': '文本分析: post-sentence,return-分词、负向情绪值'}
+    'text': {'task': '文本分析: post-sentence,return-分词、关键词、文本类型'}
 }
 
 todo = api.model(
@@ -30,6 +29,8 @@ listed_todo = api.model(
 
 parser1 = api.parser()
 parser1.add_argument('sentence', type=str, required=True)
+parser1.add_argument('type', type=str, required=False)
+
 
 
 def abort_if_todo_doesnt_exist(todo_id):
@@ -42,16 +43,20 @@ def abort_if_todo_doesnt_exist(todo_id):
 class TextAnalyse(Resource):
     @api.marshal_with(todo, code=201)
     def get(self):
-        """查看事件分词与情绪识别"""
+        """查看事件分词"""
         return {'task': Todos.get('text')}
 
     @api.expect(parser1)
     def post(self):
-        """进行事件分词与情绪识别"""
+        """进行事件分词"""
         args = parser1.parse_args()
         sentence = args['sentence']
-        words = WordExtract.seg_depart(sentence)
-        return {'task': '事件分词与情绪识别', 'result': words}, 201
+        task_type = args['type']
+        if task_type == 'keyword':
+            words = WordExtract.key_word(sentence)
+        else:
+            words = WordExtract.seg_depart(sentence)
+        return {'task': '事件分词与关键词提取', 'result': words}, 201
 
 
-api.add_resource(TextAnalyse, '/')
+api.add_resource(TextAnalyse, '')
