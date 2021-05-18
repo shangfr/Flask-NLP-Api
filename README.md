@@ -70,7 +70,11 @@ nlp flask restful api for Chinese text
 Swagger Web
 ---------------
 
-![avatar](/resources/pic.png)
+post /text
+segword-分词；keyword-关键词提取；cls-事件分类；
+
+![avatar](/resources/swagger_ui.png)
+
 
 curl test
 ---------------
