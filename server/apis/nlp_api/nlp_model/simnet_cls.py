@@ -46,9 +46,9 @@ class EventCls(object):
         df = pd.DataFrame(results)
         df['category'] = [t['category'] for t in TagList]
         df.sort_values(by='similarity', ascending=False, inplace=True)
-        df.loc[df['similarity'] < 0,'similarity'] = 0
+        df = df.loc[df['similarity'] > 0.5,['category','similarity']]
 
-        return df[['category','similarity']].to_dict(orient='records')
+        return df.to_dict(orient='records')
 
 
 if __name__ == "__main__":

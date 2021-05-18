@@ -39,6 +39,7 @@ class DictManage(Resource):
         result['success'] = True
         result['msg'] = "查看自定义词典"
         result['data'] = WordDict.user_dict
+        result['add_word'] = WordDict.show_addwords()
         return result
 
     @api.expect(parser)
@@ -46,7 +47,11 @@ class DictManage(Resource):
         """增加新词，包含词性"""
         args = parser.parse_args()
         # 添加、删除新词
-        uword = [{'word': args['word'], 'freq': args['freq'], 'tag': args['tag']}]
+        if args['freq'] == None:
+            freq = 10
+        else:
+            freq = args['freq']
+        uword = [{'word': args['word'], 'freq': freq, 'tag': args['tag']}]
         WordDict.add_userdict(uword)
         return {'task': '增加新词', 'data': uword}, 201
 
