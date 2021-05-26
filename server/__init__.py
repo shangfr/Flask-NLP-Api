@@ -7,10 +7,7 @@ Created on Thu May 13 14:38:50 2021
 
 from flask import Flask
 from .config import config_by_name
-from .mylog import MyLogger
-
-log = MyLogger('logs/all.log',level='debug')
-
+from .mylog import log
 
     
 def create_app(config_name):

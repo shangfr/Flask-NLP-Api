@@ -54,6 +54,9 @@ class MyLogger(object):
             sh.setFormatter(format_str) #设置屏幕上显示的格式
             self.logger.addHandler(sh) #把对象加到logger里
         self.logger.addHandler(th)
+        
+log = MyLogger('logs/all.log',level='debug')
+
 if __name__ == '__main__':
     log = MyLogger('all.log',level='debug')
     log.logger.debug('debug')
