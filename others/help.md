@@ -136,4 +136,22 @@ apt-get可以用于运作deb包，例如在Ubuntu系统上对某个软件的管�
 
 
 
-docker run -it --entrypoint=/bin/bash cloudera/clusterdock:latest
+docker run -it --entrypoint=/python ml-api:latest
+
+exit
+
+docker commit afcaf46e8305 ml-api
+
+docker ps -a
+docker rm id
+
+docker save -o ml-api.tar ml-api:latest
+
+
+
+
+
+docker run --name ml_flask_api -v $PWD/ml_work:/ml_work -p 5000:5000 ml-api:latest
+
+docker run -d --entrypoint=python --name ml_flask_api -v $PWD/ml_work:/ml_work -p 5000:5000 ml-api:latest api.py
+docker run -d --entrypoint=python --name ml_flask_api -v $PWD/ml_work:/ml_work -p 5000:5000 ml-api-img:latest api.py
