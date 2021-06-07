@@ -7,8 +7,8 @@ Created on Thu May 13 14:48:16 2021
 from flask import Blueprint
 from flask_restx import Api
 
-from .apis.nlp_api.dict_api import api as dict_api
-from .apis.nlp_api.text_api import api as text_api
+from .dict_api import api as dict_api
+from .text_api import api as text_api
 
 nlp_v1 = Blueprint('nlp_v1', __name__, url_prefix='/nlp/v1')
 api = Api(nlp_v1,

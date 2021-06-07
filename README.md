@@ -68,6 +68,10 @@ nlp flask restful api for Chinese text
 
         $ python manage.py run
 
+'''
+gunicorn -k gevent -c gun.conf 项目文件:项目名
+'''
+
 3. 打开 http://127.0.0.1:5000/nlp/v1/
 
 Swagger Web
