@@ -167,23 +167,5 @@ writer.commit()
 
 
 
-# 创建schema, stored为True表示该字段内容能够在检索结果中显示
-
-def build_index(file_path, indexdir="cnsyn/query"):
-    schema = Schema(title=TEXT(stored=True), path=ID(
-        stored=True), words=KEYWORD(stored=True))
-    if not os.path.exists(indexdir):
-        os.mkdir(indexdir)
-    ix = create_in(indexdir, schema)
-    writer = ix.writer()
-    with open(file_path, 'r', encoding='utf-8') as filereader:
-        num = 1
-        for row in filereader:
-            title_num = str(num) + " line"
-            writer.add_document(title=title_num, path=file_path, words=row)
-            num += 1
-    writer.commit()
-    return "Step One:  索引已经构建完成--------------------- "
-
 
 
