@@ -133,7 +133,7 @@ apt-get可以用于运作deb包，例如在Ubuntu系统上对某个软件的管�
 更新：apt-get update <package_name>
 
 
-
+docker rmi ml-api:1.0.1
 
 
 docker run -it --entrypoint=/python ml-api:latest
@@ -144,14 +144,20 @@ docker commit afcaf46e8305 ml-api
 
 docker ps -a
 docker rm id
-
+docker port  容器id 
 docker save -o ml-api.tar ml-api:latest
 
+docker cp 本地路径 容器长ID:容器路径
 
+docker cp ml_work 218f3da7b759:ml_work
 
+docker exec -it 218f3da7b759 /bin/bash
 
+docker restart 6213d6484b02
+
+# 查找错误原因
+docker logs  6213d6484b02
 
 docker run --name ml_flask_api -v $PWD/ml_work:/ml_work -p 5000:5000 ml-api:latest
 
 docker run -d --entrypoint=python --name ml_flask_api -v $PWD/ml_work:/ml_work -p 5000:5000 ml-api:latest api.py
-docker run -d --entrypoint=python --name ml_flask_api -v $PWD/ml_work:/ml_work -p 5000:5000 ml-api-img:latest api.py
