@@ -132,6 +132,8 @@ apt-get可以用于运作deb包，例如在Ubuntu系统上对某个软件的管�
 卸载：apt-get remove <package_name> 
 更新：apt-get update <package_name>
 
+docker build -t xxx .
+
 
 docker rmi ml-api:1.0.1
 
@@ -140,7 +142,7 @@ docker run -it --entrypoint=/python ml-api:latest
 
 exit
 
-docker commit afcaf46e8305 ml-api
+docker commit 8b70062aec96 ml-api
 
 docker ps -a
 docker rm id
@@ -149,7 +151,7 @@ docker save -o ml-api.tar ml-api:latest
 
 docker cp 本地路径 容器长ID:容器路径
 
-docker cp ml_work 218f3da7b759:ml_work
+docker cp ml_work/model/red_cls.py 8b70062aec96:/model
 
 docker exec -it 218f3da7b759 /bin/bash
 
