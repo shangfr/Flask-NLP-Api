@@ -174,7 +174,7 @@ docker run -it --name red_ml_api0 -v $PWD/ml_work:/ml_work -p 5000:5000  red-ml-
 
 
 
-
+docker run -d --name event_cls_api -v $PWD/ml_work:/ml_work -p 5000:5000  red-ml-api gunicorn --config gunicorn.py api:app
 
 
 
