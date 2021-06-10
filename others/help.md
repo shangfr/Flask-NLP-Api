@@ -143,7 +143,7 @@ docker run -i -t ubuntu:15.10 /bin/bash
 
 exit
 
-docker commit 8b70062aec96 ml-api
+docker commit 56fbe76833b3 red-ml-api
 
 docker ps -a
 docker rm id
@@ -154,7 +154,7 @@ docker cp 本地路径 容器长ID:容器路径
 
 docker cp ml_work/model/red_cls.py 8b70062aec96:/model
 
-docker exec -it 429a8791c548 /bin/bash
+docker exec -it 56fbe76833b3 /bin/bash
 
 docker restart 6213d6484b02
 
