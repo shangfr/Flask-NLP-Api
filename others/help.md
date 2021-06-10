@@ -139,6 +139,7 @@ docker rmi ml-api:1.0.1
 
 
 docker run -it --entrypoint=/python ml-api:latest
+docker run -i -t ubuntu:15.10 /bin/bash
 
 exit
 
@@ -153,7 +154,7 @@ docker cp 本地路径 容器长ID:容器路径
 
 docker cp ml_work/model/red_cls.py 8b70062aec96:/model
 
-docker exec -it 218f3da7b759 /bin/bash
+docker exec -it 140c7f45fbfc /bin/bash
 
 docker restart 6213d6484b02
 
@@ -163,3 +164,6 @@ docker logs  6213d6484b02
 docker run --name ml_flask_api -v $PWD/ml_work:/ml_work -p 5000:5000 ml-api:latest
 
 docker run -d --entrypoint=python --name ml_flask_api -v $PWD/ml_work:/ml_work -p 5000:5000 ml-api:latest api.py
+
+
+docker run -it --name red_ml_api -p 5000:5000  red-ml-api /bin/bash
