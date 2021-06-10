@@ -154,7 +154,7 @@ docker cp 本地路径 容器长ID:容器路径
 
 docker cp ml_work/model/red_cls.py 8b70062aec96:/model
 
-docker exec -it 140c7f45fbfc /bin/bash
+docker exec -it 429a8791c548 /bin/bash
 
 docker restart 6213d6484b02
 
@@ -166,4 +166,24 @@ docker run --name ml_flask_api -v $PWD/ml_work:/ml_work -p 5000:5000 ml-api:late
 docker run -d --entrypoint=python --name ml_flask_api -v $PWD/ml_work:/ml_work -p 5000:5000 ml-api:latest api.py
 
 
-docker run -it --name red_ml_api -p 5000:5000  red-ml-api /bin/bash
+docker run -it --name red_ml_api0 -v $PWD/ml_work:/ml_work -p 5000:5000  red-ml-api /bin/bash
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1、查看后台启动的python程序： ps aux |grep python
+2、关掉api：    kill -9 223323
+3、切换到夸克的工作环境：su kuake
+4、进入kuake的工作目录： cd  /home/kuake/ml_work/
+5、启动api ：nohup python api.py >> /home/kuake/ml_work/logs/output.log 2>&1 &
