@@ -172,7 +172,7 @@ docker run -it --name red_ml_api0 -v $PWD/ml_work:/ml_work -p 5000:5000  red-ml-
 
 
 
-
+--entrypoint=/bin/bash
 
 
 docker run -d --name event_cls_api -v $PWD/ml_work:/ml_work -p 5000:5000  red-ml-api gunicorn --config gunicorn.py api:app
@@ -188,3 +188,14 @@ docker run -d --entrypoint=gunicorn --name event_cls_api -v $PWD/ml_work:/ml_wor
 3、切换到夸克的工作环境：su kuake
 4、进入kuake的工作目录： cd  /home/kuake/ml_work/
 5、启动api ：nohup python api.py >> /home/kuake/ml_work/logs/output.log 2>&1 &
+
+
+curl -X POST -H 'content-type: application/json' -d '{"sentence":"今天上班路过体育南大街的时候发现路灯坏了很长时间了, 政府应该早点派人修一下"}' http://127.0.0.1:9531/nlp/v1/report
+
+
+
+
+
+
+
+
