@@ -134,6 +134,7 @@ apt-get可以用于运作deb包，例如在Ubuntu系统上对某个软件的管�
 
 docker build -t xxx .
 
+docker build -t quadtalent-docker.pkg.coding.net/smart-city/nlp-api-work-prd .
 
 docker rmi ml-api:1.0.1
 
@@ -178,7 +179,7 @@ docker run -d --name event_cls_api -v $PWD/ml_work:/ml_work -p 5000:5000  red-ml
 
 
 
-
+docker run -d --entrypoint=gunicorn --name event_cls_api -v $PWD/ml_work:/ml_work -p 5000:5000  quadtalent-docker.pkg.coding.net/smart-city/nlp-api-work-prd --config gunicorn.py api:app
 
 
 
