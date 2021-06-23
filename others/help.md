@@ -144,7 +144,7 @@ docker run -i -t ubuntu:15.10 /bin/bash
 
 exit
 
-docker commit 56fbe76833b3 red-ml-api
+docker commit a802aacccd67 quadtalent-docker.pkg.coding.net/smart-city/city-wise/ml-work-api-qa:1.0.0
 
 docker ps -a
 docker rm id
@@ -195,7 +195,11 @@ curl -X POST -H 'content-type: application/json' -d '{"sentence":"今天上班�
 
 
 
+docker run -d -p 9531:9531  --name ml-work-api  quadtalent-docker.pkg.coding.net/smart-city/city-wise/ml-work-api-prd:1.0.0
 
 
+docker run -d --net=host --name ml-work-api6  quadtalent-docker.pkg.coding.net/smart-city/city-wise/ml-work-api-prd:1.0.0
 
+
+docker run -d -p 9531:9531  --entrypoint=gunicorn --name ml-work-api  quadtalent-docker.pkg.coding.net/smart-city/city-wise/ml-work-api-qa:1.0.0 --config gunicorn.py api:app
 
