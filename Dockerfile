@@ -5,6 +5,9 @@ COPY . /ml_work
 WORKDIR /ml_work
 RUN apt-get update ##[edited]
 RUN apt-get install ffmpeg libsm6 libxext6 nginx -y
+RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+RUN echo 'Asia/Shanghai' >/etc/timezone
+
 RUN pip install -r requirements.txt
 
 # Setup nginx

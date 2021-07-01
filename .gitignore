@@ -1,2 +1,5 @@
 
 *.ini
+.spyproject/config/backups/codestyle.ini.bak
+.spyproject/config/backups/encoding.ini.bak
+*.bak

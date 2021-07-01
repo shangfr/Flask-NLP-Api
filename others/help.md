@@ -144,7 +144,7 @@ docker run -i -t ubuntu:15.10 /bin/bash
 
 exit
 
-docker commit a802aacccd67 quadtalent-docker.pkg.coding.net/smart-city/city-wise/ml-work-api-qa:1.0.0
+docker commit fb350be9dff2 quadtalent-docker.pkg.coding.net/smart-city/city-wise/ml-work-api-qa:1.0.0
 
 docker ps -a
 docker rm id
@@ -155,7 +155,10 @@ docker cp 本地路径 容器长ID:容器路径
 
 docker cp ml_work/model/red_cls.py 8b70062aec96:/model
 
-docker exec -it 56fbe76833b3 /bin/bash
+docker cp ml_work/query fb350be9dff2:/ml_work
+
+
+docker exec -it fb350be9dff2 /bin/bash
 
 docker restart 6213d6484b02
 
@@ -170,7 +173,9 @@ docker run -d --entrypoint=python --name ml_flask_api -v $PWD/ml_work:/ml_work -
 docker run -it --name red_ml_api0 -v $PWD/ml_work:/ml_work -p 5000:5000  red-ml-api /bin/bash
 
 
+内网ip：19
 
+7tigvGfH6f5x$
 
 --entrypoint=/bin/bash
 
@@ -194,11 +199,9 @@ curl -X POST -H 'content-type: application/json' -d '{"sentence":"今天上班�
 
 
 
+docker run -d --net=host --name ml-work-api -v $PWD/ml-work-api:/ml_work quadtalent-docker.pkg.coding.net/smart-city/city-wise/ml-work-api-prd:1.0.0
 
-docker run -d -p 9531:9531  --name ml-work-api  quadtalent-docker.pkg.coding.net/smart-city/city-wise/ml-work-api-prd:1.0.0
-
-
-docker run -d --net=host --name ml-work-api6  quadtalent-docker.pkg.coding.net/smart-city/city-wise/ml-work-api-prd:1.0.0
+docker run -d -p 9531:9531 --name ml-work-api-qa -v $PWD/ml-work-api:/ml_work quadtalent-docker.pkg.coding.net/smart-city/city-wise/ml-work-api-qa:1.0.0
 
 
 docker run -d -p 9531:9531  --entrypoint=gunicorn --name ml-work-api  quadtalent-docker.pkg.coding.net/smart-city/city-wise/ml-work-api-qa:1.0.0 --config gunicorn.py api:app
